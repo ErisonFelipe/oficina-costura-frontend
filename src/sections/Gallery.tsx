@@ -1,5 +1,8 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { FiArrowUpRight } from 'react-icons/fi';
 import { SectionLabel } from '../components/ui/SectionLabel';
+import { Reveal } from '../components/ui/Reveal';
 
 const galleryItems = [
   { id: 1, title: 'Vestido de festa sob medida', category: 'Ajuste de vestido', gradient: 'linear-gradient(135deg, #D4A08C, #C67B5C, #B5654A)' },
@@ -12,43 +15,65 @@ const galleryItems = [
 
 export const Gallery: React.FC = () => {
   return (
-    <section id="galeria" className="py-24 bg-[#F5EDE6] relative">
-      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-orange-300/30 to-transparent"></div>
-      
+    <section id="galeria" className="py-24 bg-[#F5EDE6] relative overflow-hidden">
+      <div className="absolute bottom-0 left-0 right-0 stitch-horizontal" />
+
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <div className="flex justify-center">
             <SectionLabel>Galeria</SectionLabel>
           </div>
-          <h2 className="font-serif text-4xl md:text-5xl font-semibold leading-tight text-gray-900 mb-5">
+          <h2 className="font-serif text-4xl md:text-5xl font-semibold leading-tight text-[#2C2825] mb-5">
             Trabalhos que falam por si
           </h2>
-          <p className="text-base text-gray-600 leading-relaxed max-w-xl mx-auto">
-            Uma seleção de peças que passaram por nossas mãos — cada uma com sua história, 
+          <p className="text-base text-[#6B6560] leading-relaxed max-w-xl mx-auto">
+            Uma seleção de peças que passaram por nossas mãos — cada uma com sua história,
             seu caimento e seu toque de perfeição.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {galleryItems.map((item) => (
-            <div
-              key={item.id}
-              className="group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer border border-gray-200 transition-all duration-300 hover:transform hover:-translate-y-1 hover:shadow-md"
-            >
-              <div
-                className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
-                style={{ background: item.gradient }}
-              />
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors duration-300" />
-              <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-center">
-                <span className="text-xs font-semibold tracking-widest uppercase text-white/80 mb-2">
-                  {item.category}
-                </span>
-                <span className="font-serif text-lg font-medium text-white drop-shadow-lg">
-                  {item.title}
-                </span>
-              </div>
-            </div>
+          {galleryItems.map((item, index) => (
+            <Reveal key={item.id} delay={index * 0.08}>
+              <motion.div
+                className="group relative rounded-2xl overflow-hidden aspect-[4/3] cursor-pointer border border-[#E8E0D8]"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/* Fundo gradiente */}
+                <div
+                  className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
+                  style={{ background: item.gradient }}
+                />
+
+                {/* Overlay escuro */}
+                <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
+
+                {/* Padrão de costura no hover */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-30 transition-opacity duration-500"
+                  style={{
+                    backgroundImage:
+                      'repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,0.15) 10px, rgba(255,255,255,0.15) 11px)',
+                  }}
+                />
+
+                {/* Ícone de seta no canto */}
+                <div className="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
+                  <FiArrowUpRight className="w-5 h-5 text-[#2C2825]" />
+                </div>
+
+                {/* Conteúdo */}
+                <div className="relative z-10 flex flex-col items-center justify-center h-full p-6 text-center">
+                  <span className="text-xs font-semibold tracking-widest uppercase text-white/80 mb-2 translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
+                    {item.category}
+                  </span>
+                  <span className="font-serif text-lg font-medium text-white drop-shadow-lg translate-y-2 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                    {item.title}
+                  </span>
+                </div>
+              </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>

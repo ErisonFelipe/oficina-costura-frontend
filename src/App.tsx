@@ -1,18 +1,20 @@
 import React from 'react';
 import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
+import { StitchProgress } from './components/ui/StitchProgress';
 import { Hero } from './sections/Hero';
 import { Services } from './sections/Services';
 import { About } from './sections/About';
 import { Gallery } from './sections/Gallery';
 import { Highlight } from './sections/Highlight';
 import { Contact } from './sections/Contact';
-import { Footer } from './components/layout/Footer';
 
 function App() {
   return (
-    <div className="min-h-screen bg-bg-primary">
+    <div className="min-h-screen bg-[#FAF7F2] relative">
+      <StitchProgress />
       <Header />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Services />
         <About />

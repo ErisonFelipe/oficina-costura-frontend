@@ -21,18 +21,169 @@
     color: #2C2825;
     line-height: 1.6;
     overflow-x: hidden;
+    position: relative;
+  }
+
+  /* Textura sutil de tecido (linho) no fundo */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgba(198, 123, 92, 0.03) 0px,
+        rgba(198, 123, 92, 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        90deg,
+        rgba(198, 123, 92, 0.03) 0px,
+        rgba(198, 123, 92, 0.03) 1px,
+        transparent 1px,
+        transparent 4px
+      );
   }
 
   ::selection {
     background-color: #C67B5C;
     color: #fff;
   }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #FAF7F2;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #C67B5C;
+    border-radius: 10px;
+    border: 2px solid #FAF7F2;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #A85E42;
+  }
 }
 
-.font-serif {
-  font-family: 'Playfair Display', serif;
+@layer components {
+  /* Container padrão */
+  .container-custom {
+    @apply max-w-7xl mx-auto px-6;
+  }
+
+  /* Linha de costura horizontal (dashed) */
+  .stitch-horizontal {
+    height: 2px;
+    background-image: repeating-linear-gradient(
+      90deg,
+      #C67B5C 0,
+      #C67B5C 8px,
+      transparent 8px,
+      transparent 16px
+    );
+    opacity: 0.4;
+  }
+
+  /* Linha de costura vertical */
+  .stitch-vertical {
+    width: 2px;
+    background-image: repeating-linear-gradient(
+      180deg,
+      #C67B5C 0,
+      #C67B5C 8px,
+      transparent 8px,
+      transparent 16px
+    );
+    opacity: 0.4;
+  }
+
+  /* Botão com efeito de costura no hover */
+  .btn-stitch {
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-stitch::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1.5px dashed rgba(255, 255, 255, 0.5);
+    border-radius: 50px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .btn-stitch:hover::before {
+    opacity: 1;
+  }
+
+  /* Card com borda costurada */
+  .card-stitch {
+    position: relative;
+  }
+  .card-stitch::after {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px dashed rgba(198, 123, 92, 0.25);
+    border-radius: 12px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .card-stitch:hover::after {
+    opacity: 1;
+  }
+
+  /* Textura de linha diagonal decorativa */
+  .thread-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(198, 123, 92, 0.08) 10px,
+      rgba(198, 123, 92, 0.08) 11px
+    );
+  }
+
+  /* Fonte serifada */
+  .font-serif {
+    font-family: 'Playfair Display', serif;
+  }
+  .font-body {
+    font-family: 'Inter', sans-serif;
+  }
 }
 
-.font-body {
-  font-family: 'Inter', sans-serif;
+@layer utilities {
+  /* Animação de costura — pontos aparecendo */
+  @keyframes stitch-progress {
+    from { stroke-dashoffset: 1000; }
+    to { stroke-dashoffset: 0; }
+  }
+  .animate-stitch {
+    stroke-dasharray: 1000;
+    animation: stitch-progress 3s ease-out forwards;
+  }
+
+  /* Flutuação sutil */
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* Pulse suave */
+  @keyframes soft-pulse {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  .animate-soft-pulse {
+    animation: soft-pulse 3s ease-in-out infinite;
+  }
 }
