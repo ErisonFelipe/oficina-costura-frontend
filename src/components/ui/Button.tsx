@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick?: () => void;
   className?: string;
   type?: 'button' | 'submit' | 'reset';
+  disabled?: boolean;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -15,13 +16,20 @@ export const Button: React.FC<ButtonProps> = ({
   href,
   onClick,
   className = '',
-  type = 'button'
+  type = 'button',
+  disabled = false,
 }) => {
-  const baseClasses = 'inline-flex items-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border-none whitespace-nowrap';
+  const baseClasses =
+    'inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer border-none whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed';
+
   const variantClasses = {
-    primary: 'bg-accent text-white shadow-lg hover:bg-accent-dark hover:translate-y-[-2px]',
-    outline: 'bg-transparent text-text-primary border-2 border-gray-300 hover:border-accent hover:text-accent hover:translate-y-[-2px]',
-    secondary: 'bg-white text-text-primary border border-gray-200 shadow-sm hover:shadow-md hover:translate-y-[-2px]'
+    // Terracota mais escuro → contraste aprovado (WCAG AA)
+    primary:
+      'bg-[#A85E42] text-white shadow-lg hover:bg-[#8E4C34] hover:translate-y-[-2px]',
+    outline:
+      'bg-transparent text-[#2C2825] border-2 border-[#D5CBC2] hover:border-[#C67B5C] hover:text-[#A85E42] hover:translate-y-[-2px]',
+    secondary:
+      'bg-white text-[#2C2825] border border-[#E8E0D8] shadow-sm hover:shadow-md hover:translate-y-[-2px]',
   }[variant];
 
   const combinedClasses = `${baseClasses} ${variantClasses} ${className}`;
@@ -35,7 +43,12 @@ export const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button type={type} className={combinedClasses} onClick={onClick}>
+    <button
+      type={type}
+      className={combinedClasses}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
